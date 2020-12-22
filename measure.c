@@ -14,6 +14,7 @@
 
 #define SERVER_PORT 12345  //The port that the server listens
 #define LENGTH 65536
+#define FILE_5_TIMES 1048467
 
 int main() {
     signal(SIGPIPE, SIG_IGN); // on linux to prevent crash on closing socket
@@ -70,35 +71,28 @@ int main() {
     addressLen = sizeof(clientAddress);
 
     time_t startC, endC;
-
-
-    printf("sender connected succsesfuly \n");
-    startC = time(NULL);
-    char fileBuffer[LENGTH];
-
-    int stream = 0;
-    int i = 0;
-    memset(&fileBuffer, 0, sizeof(fileBuffer));
-    while (i < 5) {
-
-        clientSocket = accept(sock, (struct sockaddr *) &clientAddress, &addressLen);
+    clientSocket = accept(sock, (struct sockaddr *) &clientAddress, &addressLen);
         if (clientSocket == -1) {
             printf("accept failed with error code : %d", errno);
             // TODO: close the sockets
             return -1;
         }
 
-
-
-        while (stream = recv(clientSocket, fileBuffer, LENGTH, 0)) {
-            printf("stream is %d \n",stream);
+    printf("sender connected succsesfuly \n");
+    startC = time(NULL);
+    char fileBuffer[LENGTH];
+    int bitsum = 0;
+    int stream = 0;
+    while (bitsum < FILE_5_TIMES) {
+        stream = recv(clientSocket, fileBuffer, LENGTH, 0); 
+        bitsum += stream;
+        printf("stream is %d \n",stream);
             if (stream == -1) {printf("accept failed with error code : %d", errno);
                 // TODO: close the sockets
                 return -1;}
-        }
-        i++;
-        printf("measure received %d times \n", i);
     }
+     printf ("sum is: %d \n", bitsum);
+
     endC = time(NULL);
 
     printf("The time of cubic is %.4f\n", (difftime(endC, startC)));
@@ -122,22 +116,18 @@ int main() {
     time_t startR, endR;
 
     startR = time(NULL);
-
+    bitsum = 0;
     stream = 0;
-    i = 0;
-    while (i < 5) {
-        memset(&fileBuffer, 0, sizeof(fileBuffer));
-        while (stream = recv(clientSocket, fileBuffer, LENGTH, 0)) {
-            if (stream == -1) {
-                printf("accept failed with error code : %d", errno);
+         while(stream = recv(clientSocket, fileBuffer, LENGTH, 0)){
+            bitsum += stream;
+            printf("stream is %d \n",stream);
+            if (stream == -1) {printf("accept failed with error code : %d", errno);
                 // TODO: close the sockets
-                return -1;
-            }
-            printf("stream is %d",stream);
-        }
-        i++;
-        printf("measur recived %d times \n", i);
+                return -1;}
     }
+     printf ("sum is: %d \n", bitsum);
+
+    endC = time(NULL);
     endR = time(NULL);
     float timeCaount = difftime(endR, startR);
     printf("The time of reno is %.4f \n", timeCaount);
