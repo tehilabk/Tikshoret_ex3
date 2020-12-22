@@ -52,7 +52,7 @@ int main() {
     int i = 0;
     while (i < 5) {
 
-        char *file_name = "/home/user/Desktop/New Tikshoret ex3/Tikshoret_ex3/1mb.txt";
+        char *file_name = "/home/user/Tikshoret_ex3/1mb.txt";
         char sbuffer[LENGTH];
         FILE *file = fopen(file_name, "r");
         if (file == NULL) {
@@ -67,15 +67,14 @@ int main() {
                 printf("send() failed with error code : %d", errno);
                 return 1;
             }
-           // printf("stream is %d",stream);
-           // printf("sending is %d",sending);
+          
         }
         fclose(file);
         i++;
         printf("Sender Sent the file %d time success!\n", i);
         memset(&sbuffer, 0, sizeof(sbuffer)); //reset the buffer
     }
-
+    //  sleep(5);
     /* change CC */
 
     char buf[LENGTH];
@@ -95,26 +94,24 @@ int main() {
 
     /* Send File 5 times */
     i = 0;
-    while (i < 5) {
 
-        char *file_name = "/home/user/Desktop/New Tikshoret ex3/Tikshoret_ex3/1mb.txt";
+    while (i < 5) {
+        char *file_name = "/home/user/Tikshoret_ex3/1mb.txt";
         char sbuffer[LENGTH];
         FILE *file = fopen(file_name, "r");
         if (file == NULL) {
             printf("ERROR: File %s not found.\n", file_name);
             return 1;
         }
-
         int stream;
         while ((stream = fread(sbuffer, sizeof(char), LENGTH, file)) > 0) {
             int sending = send(sock, sbuffer, stream, 0);
             if (sending < 0) {
                 printf("send() failed with error code : %d", errno);
                 return 1;
-            }
-           // printf("stream is %d",stream);
-            //printf("sending is %d",sending);
+            }  
         }
+
         fclose(file);
         i++;
         printf("Sender Sent the file %d time success!\n", i);
