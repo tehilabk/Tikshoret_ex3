@@ -3,7 +3,6 @@
 */
 
 #include<stdio.h>
-
 #include <unistd.h>
 #include <sys/types.h>
 #include <sys/socket.h>
@@ -95,7 +94,8 @@ signal(SIGPIPE, SIG_IGN); // on linux to prevent crash on closing socket
 	   // TODO: close the sockets
            return -1;
     	}
-   
+    
+    printf ("sender connected succsesfuly \n");
     startC = time(NULL);
     char filename[LENGTH];
 
@@ -108,7 +108,6 @@ signal(SIGPIPE, SIG_IGN); // on linux to prevent crash on closing socket
 	   // TODO: close the sockets
            return -1;
       }
-      printf ("measur recived %d bits \n", stream);
 
         }
         i++;
@@ -117,7 +116,7 @@ signal(SIGPIPE, SIG_IGN); // on linux to prevent crash on closing socket
     }
     endC = time(NULL);
 
-    printf ("The average of ceubic is %.4f", (difftime(endC, startC)/5)); 
+    printf ("The time of cubic is %.4f\n", (difftime(endC, startC))); 
 
 
     /* change CC */
@@ -133,13 +132,14 @@ signal(SIGPIPE, SIG_IGN); // on linux to prevent crash on closing socket
         perror("setsockopt"); 
         return -1;
     }
-    printf ("Change to reno /n");
+    printf ("Change to reno \n");
     
     time_t startR, endR;
+
     startR = time(NULL);
 
-    int stream =0;
-    int i =0;
+    stream =0;
+     i =0;
     while (i<5){
     while (stream = recv(clientSocket, filename, LENGTH, 0))  {
       if (stream == -1){
@@ -147,7 +147,6 @@ signal(SIGPIPE, SIG_IGN); // on linux to prevent crash on closing socket
 	   // TODO: close the sockets
            return -1;
       }
-      printf ("measur recived %d bits \n", stream);
 
         }
         i++;
@@ -155,11 +154,11 @@ signal(SIGPIPE, SIG_IGN); // on linux to prevent crash on closing socket
   
     }
     endR = time(NULL);
-
-    printf ("The average of reno is %.4f", (difftime(endR, startR)/5)); 
+    float timeCaount = difftime(endR, startR);
+    printf ("The time of reno is %.4f \n", timeCaount); 
 
     // TODO: All open clientSocket descriptors should be kept
     // in some container and closed as well.
-    close(sock);      
+    close(sock);              
     return 0;
 }

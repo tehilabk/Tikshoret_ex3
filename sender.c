@@ -82,14 +82,13 @@ int main()
 	            printf("send() failed with error code : %d"  ,errno);
                 return 1;
 	        }
-                printf ("sender: %d byte was send /n", sending);
 	    }
         fclose(file);
-	    printf("Sender Sent the file %s  %d time success!\n", file_name, i);
-        i++;
+         i++;
+	    printf("Sender Sent the file %d time success!\n", i);
+       
     }
-    //TODO remove sleep 
-     sleep(3);
+  
     /* change CC */
 
     char buf[LENGTH];
@@ -103,13 +102,12 @@ int main()
         perror("setsockopt"); 
         return -1;
     }
-    printf ("Change to reno /n");
-
+    printf ("Change to reno \n");
 
     
    
     /* Send File 5 times */
-    int i =0;
+     i =0;
     while (i < 5){
 
      char* file_name = "/home/user/Tikshoret_ex3/1mb.txt";
@@ -129,11 +127,11 @@ int main()
 	            printf("send() failed with error code : %d"  ,errno);
                 return 1;
 	        }
-                printf ("sender: %d byte was send /n", sending);
 	    }
         fclose(file);
-	    printf("Sender Sent the file %s  %d time success!\n", file_name, i);
         i++;
+	    printf("Sender Sent the file %d time success!\n", i);
+       
     }
 
 	 sleep(3);
