@@ -50,6 +50,7 @@ int main() {
 
     /* Send File 5 times */
     int i = 0;
+    int count=0;
     while (i < 5) {
 
         char *file_name = "/home/user/Tikshoret_ex3/1mb.txt";
@@ -63,6 +64,8 @@ int main() {
         int stream;
         while ((stream = fread(sbuffer, sizeof(char), LENGTH, file)) > 0) {
             sending = send(sock, sbuffer, stream, 0);
+           count+=sending;
+            memset(&sbuffer, 0, sizeof(sbuffer)); 
             if (sending < 0) {
                 printf("send() failed with error code : %d", errno);
                 return 1;
@@ -72,7 +75,9 @@ int main() {
         fclose(file);
         i++;
         printf("Sender Sent the file %d time success!\n", i);
-        memset(&sbuffer, 0, sizeof(sbuffer)); //reset the buffer
+        printf ("num of bit is: %d\n", count);
+        count =0;
+        // memset(&sbuffer, 0, sizeof(sbuffer)); //reset the buffer
     }
     //  sleep(5);
     /* change CC */
@@ -94,7 +99,7 @@ int main() {
 
     /* Send File 5 times */
     i = 0;
-
+    count =0;
     while (i < 5) {
         char *file_name = "/home/user/Tikshoret_ex3/1mb.txt";
         char sbuffer[LENGTH];
@@ -106,6 +111,8 @@ int main() {
         int stream;
         while ((stream = fread(sbuffer, sizeof(char), LENGTH, file)) > 0) {
             int sending = send(sock, sbuffer, stream, 0);
+            count+=sending;
+            memset(&sbuffer, 0, sizeof(sbuffer)); 
             if (sending < 0) {
                 printf("send() failed with error code : %d", errno);
                 return 1;
@@ -115,7 +122,9 @@ int main() {
         fclose(file);
         i++;
         printf("Sender Sent the file %d time success!\n", i);
-        memset(&sbuffer, 0, sizeof(sbuffer)); //reset the buffer
+        printf ("num of bit is: %d\n", count);
+        count =0;
+        // memset(&sbuffer, 0, sizeof(sbuffer)); //reset the buffer
     }
 
     sleep(3);
