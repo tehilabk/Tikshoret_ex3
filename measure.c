@@ -14,7 +14,7 @@
 
 #define SERVER_PORT 12345  //The port that the server listens
 #define LENGTH 65536
-#define FILE_5_TIMES 1048467
+#define FILE_5_TIMES 5242880
 
 int main() {
     signal(SIGPIPE, SIG_IGN); // on linux to prevent crash on closing socket
@@ -84,12 +84,13 @@ int main() {
     int bitsum = 0;
     int stream = 0;
     while (bitsum < FILE_5_TIMES) {
+        memset(&fileBuffer, 0, sizeof(fileBuffer));
         stream = recv(clientSocket, fileBuffer, LENGTH, 0); 
         bitsum += stream;
         printf("stream is %d \n",stream);
             if (stream == -1) {printf("accept failed with error code : %d", errno);
                 // TODO: close the sockets
-                return -1;}
+                return -1;}        
     }
      printf ("sum is: %d \n", bitsum);
 
@@ -119,6 +120,7 @@ int main() {
     bitsum = 0;
     stream = 0;
          while(stream = recv(clientSocket, fileBuffer, LENGTH, 0)){
+            memset(&fileBuffer, 0, sizeof(fileBuffer)); 
             bitsum += stream;
             printf("stream is %d \n",stream);
             if (stream == -1) {printf("accept failed with error code : %d", errno);
